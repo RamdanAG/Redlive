@@ -10,9 +10,9 @@ app.use(express.json());
 // Koneksi ke MySQL
 const db = mysql.createConnection({
   host: "localhost",
-  user: "root",
-  password: "",
-  database: "testdb",
+  user: "root", // Ganti jika pakai user lain
+  password: "", // Ganti sesuai password MySQL kamu
+  database: "db_redlive"
 });
 
 db.connect((err) => {
@@ -23,37 +23,30 @@ db.connect((err) => {
   }
 });
 
-// **Read Data**
-app.get("/users", (req, res) => {
-  db.query("SELECT * FROM users", (err, results) => {
+// Read Data
+app.get("/riwayat_donor", (req, res) => {
+  db.query("SELECT * FROM riwayat_donor", (err, results) => {
     if (err) return res.status(500).json({ error: err });
     res.json(results);
   });
 });
 
-// **Create Data**
-app.post("/users", (req, res) => {
-  const { name, email } = req.body;
-  db.query("INSERT INTO users (name, email) VALUES (?, ?)", [name, email], (err, result) => {
+// Create Data
+app.post("/riwayat_donor", (req, res) => {
+  const { id_kartu, notelp, goldarah, jumlahdonor, tanggal_donor, Nama, alamat, jenis_kelamin, Agama } = req.body;
+  const query = "INSERT INTO riwayat_donor (id_kartu, notelp, goldarah, jumlahdonor, tanggal_donor, Nama, alamat, jenis_kelamin, Agama) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  
+  db.query(query, [id_kartu, notelp, goldarah, jumlahdonor, tanggal_donor, Nama, alamat, jenis_kelamin, Agama], (err, result) => {
     if (err) return res.status(500).json({ error: err });
-    res.json({ message: "User added successfully", id: result.insertId });
+    res.json({ message: "Donor added successfully", id: result.insertId });
   });
 });
 
-// **Update Data**
-app.put("/users/:id", (req, res) => {
-  const { name, email } = req.body;
-  db.query("UPDATE users SET name=?, email=? WHERE id=?", [name, email, req.params.id], (err) => {
+// Delete Data
+app.delete("/riwayat_donor/:id", (req, res) => {
+  db.query("DELETE FROM riwayat_donor WHERE id=?", [req.params.id], (err) => {
     if (err) return res.status(500).json({ error: err });
-    res.json({ message: "User updated successfully" });
-  });
-});
-
-// **Delete Data**
-app.delete("/users/:id", (req, res) => {
-  db.query("DELETE FROM users WHERE id=?", [req.params.id], (err) => {
-    if (err) return res.status(500).json({ error: err });
-    res.json({ message: "User deleted successfully" });
+    res.json({ message: "Donor deleted successfully" });
   });
 });
 
