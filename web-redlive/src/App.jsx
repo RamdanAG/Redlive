@@ -3,6 +3,13 @@ import { getDonors, addDonor, deleteDonor } from "./services/api";
 import DonorList from "./components/DonorList";
 import DonorForm from "./components/DonorForm";
 
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import StockDarah from "./pages/StockDarah";
+import RiwayatDonor from "./pages/RiwayatDonor";
+import JadwalDonor from "./pages/JadwalDonor";
+import InformasiDonor from "./pages/InformasiDonor";
+import Error from "./pages/Error";
+
 const App = () => {
   const [donors, setDonors] = useState([]);
 
@@ -13,6 +20,7 @@ const App = () => {
     };
     fetchData();
   }, []);
+
 
   const handleAddDonor = async (formData) => {
     const newDonor = await addDonor(formData);
@@ -25,10 +33,26 @@ const App = () => {
   };
 
   return (
-    <div>
-      <DonorList donors={donors} onDelete={handleDeleteDonor} />
-      <DonorForm onAdd={handleAddDonor} />
-    </div>
+    <Router>
+      <Routes>
+
+        <Route path="/" element={
+            <div>
+              <DonorList donors={donors} onDelete={handleDeleteDonor} />
+              <DonorForm onAdd={handleAddDonor} />
+            </div>
+          }
+        />
+
+        <Route path="/stock-darah" element={<StockDarah/>}></Route>
+        <Route path="/riwayat-donor" element={<RiwayatDonor/>}></Route>
+        <Route path="/jadwal-donor" element={<JadwalDonor/>}></Route>
+        <Route path="/informasi-donor" element={<InformasiDonor/>}></Route>
+
+        <Route path="*" element={<Error/>}></Route>
+
+      </Routes>
+    </Router>
   );
 };
 
