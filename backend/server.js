@@ -23,6 +23,33 @@ db.connect((err) => {
   }
 });
 
+// Register User
+app.post("/register", (req, res) => {
+  const { username, password } = req.body;
+  const query = "INSERT INTO riwayat_donor (username, password) VALUES (?, ?)";
+  
+  db.query(query, [username, password], (err, result) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json({ success: true, message: "User registered successfully!" });
+  });
+});
+
+// Login User
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
+  const query = "SELECT * FROM riwayat_donor WHERE username = ? AND password = ?";
+  
+  db.query(query, [username, password], (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+
+    if (results.length > 0) {
+      res.json({ success: true, user: results[0] });
+    } else {
+      res.json({ success: false, message: "Invalid username or password!" });
+    }
+  });
+});
+
 // Read Data
 app.get("/riwayat_donor", (req, res) => {
   db.query("SELECT * FROM riwayat_donor", (err, results) => {
