@@ -16,8 +16,8 @@ const Login = () => {
 
     const data = await response.json();
     if (data.success) {
-      localStorage.setItem("user", JSON.stringify(data.user));
-      navigate("/home"); // Arahkan ke halaman utama setelah login
+      sessionStorage.setItem("user", JSON.stringify(data.user));
+      navigate("/home"); // Redirect ke halaman utama setelah login
     } else {
       alert("Login gagal, cek username dan password!");
     }

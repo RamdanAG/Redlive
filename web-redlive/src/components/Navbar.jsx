@@ -1,13 +1,12 @@
-export default function Navbar(){
-
+export default function Navbar() {
     const handleLogout = () => {
-        localStorage.removeItem("user");
+        sessionStorage.removeItem("user"); // Hapus session saat logout
         window.location.href = "/login"; // Redirect ke halaman login
-      };
-      
-    return(
+    };
+
+    return (
         <nav>
             <button onClick={handleLogout}>Logout</button>
         </nav>
-    )
+    );
 }
