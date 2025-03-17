@@ -5,21 +5,30 @@ import { getDonors, addDonor, deleteDonor } from "./services/api";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Home from "./pages/Home";
 import StockDarah from "./pages/StockDarah";
 import RiwayatDonor from "./pages/RiwayatDonor";
 import JadwalDonor from "./pages/JadwalDonor";
 import InformasiDonor from "./pages/InformasiDonor";
-
 import DataTable from "./pages/DataTable";
-import Home from "./pages/Home";
 
 import ProtectedRoute from "./components/ProtectedRoute";
-import AdminRoute from "./components/AdminRoute"; // Import AdminRoute
+import AdminRoute from "./components/AdminRoute";
+
+import "./App.css";
+import logo from "../public/logo.jpg"; // Pastikan logo ada di folder assets
 
 const App = () => {
+  const [loading, setLoading] = useState(true);
   const [donors, setDonors] = useState([]);
 
   useEffect(() => {
+    // Simulasi splash screen selama 2 detik
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    // Fetch data donor dari API
     const fetchData = async () => {
       const data = await getDonors();
       setDonors(data);
@@ -41,21 +50,25 @@ const App = () => {
     setDonors(donors.map(donor => (donor.id === updatedDonor.id ? updatedDonor : donor)));
   };
 
+  // Tampilkan splash screen jika masih loading
+  if (loading) {
+    return (
+      <div className="splash-screen">
+        <img src={logo} alt="Logo" className="splash-logo" />
+      </div>
+    );
+  }
+
   return (
     <Router>
       <Routes>
-        {/* Halaman login dan register bisa diakses tanpa login */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
-        {/* Halaman untuk semua user setelah login */}
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/stock-darah" element={<ProtectedRoute><StockDarah /></ProtectedRoute>} />
         <Route path="/riwayat-donor" element={<ProtectedRoute><RiwayatDonor /></ProtectedRoute>} />
         <Route path="/jadwal-donor" element={<ProtectedRoute><JadwalDonor /></ProtectedRoute>} />
         <Route path="/informasi-donor" element={<ProtectedRoute><InformasiDonor /></ProtectedRoute>} />
-
-        {/* Hanya Admin yang bisa akses DataTable */}
         <Route path="/data-table" element={
           <AdminRoute>
             <DataTable 
@@ -66,8 +79,6 @@ const App = () => {
             />
           </AdminRoute>
         } />
-
-        {/* Jika halaman tidak ditemukan, arahkan ke home */}
         <Route path="*" element={<Navigate to="/home" />} />
       </Routes>
     </Router>
