@@ -16,18 +16,11 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 
 import "./App.css";
-import logo from "../public/logo.jpg"; // Pastikan logo ada di folder assets
 
 const App = () => {
-  const [loading, setLoading] = useState(true);
   const [donors, setDonors] = useState([]);
 
   useEffect(() => {
-    // Simulasi splash screen selama 2 detik
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-
     // Fetch data donor dari API
     const fetchData = async () => {
       const data = await getDonors();
@@ -49,15 +42,6 @@ const App = () => {
   const handleUpdateDonor = (updatedDonor) => {
     setDonors(donors.map(donor => (donor.id === updatedDonor.id ? updatedDonor : donor)));
   };
-
-  // Tampilkan splash screen jika masih loading
-  if (loading) {
-    return (
-      <div className="splash-screen">
-        <img src={logo} alt="Logo" className="splash-logo" />
-      </div>
-    );
-  }
 
   return (
     <Router>
