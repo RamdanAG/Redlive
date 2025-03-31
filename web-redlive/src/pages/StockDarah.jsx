@@ -1,5 +1,13 @@
+import Navbar from "../components/Navbar"
+import NavbarBottom from "../components/NavbarBottom"
+import StockDarahCenter from "../components/StockDarahCenter"
+
 export default function StockDarah(){
     return(
-        <h1>stock darah</h1>
+        <div>
+            <Navbar />
+            <StockDarahCenter/>
+            <NavbarBottom/>
+        </div>
     )
 }

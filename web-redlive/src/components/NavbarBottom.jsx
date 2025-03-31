@@ -3,6 +3,7 @@ import './style/BottomNavbar.css'
 
 import User from '../../public/Icons/User.svg'
 import Home from '../../public/Icons/Home.svg'
+import Logo from '../../public/Logo/Logo.svg'
 
 const BottomNavbar = () => {
   return (
@@ -15,7 +16,7 @@ const BottomNavbar = () => {
 
       {/* Logo Tengah */}
       <div className="logo-container">
-        <img src="/logo.png" alt="Logo" className="logo" />
+        <img src={Logo} alt="Logo" className="logo" />
       </div>
 
       {/* Profile Button */}

@@ -13,7 +13,7 @@ export default function Navbar() {
     return (
         <nav className="navbar">
             {/* Logo */}
-            <a href="" className="logo">RedLive</a>
+            <a href="" className="logo-text">RedLive</a>
 
             {/* Menu untuk Tablet & Mobile */}
             <ul className={`nav-links ${menuOpen ? "open" : ""}`} onClick={() => setMenuOpen(false)}>

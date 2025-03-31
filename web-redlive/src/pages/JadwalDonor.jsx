@@ -1,5 +1,12 @@
+import Navbar from "../components/Navbar"
+import NavbarBottom from "../components/NavbarBottom"
+
 export default function JadwalDonor(){
     return(
-        <h1>jadwal donor</h1>
+        <div>
+            <Navbar />
+            <NavbarBottom/>
+        </div>
+            
     )
 }
